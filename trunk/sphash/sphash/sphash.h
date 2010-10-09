@@ -26,6 +26,8 @@
 extern "C"
 {
 
+// hash_file expects |file_name| to be double null terminated.
+// to hash more than one file, use L"filename1\0filename2\0\0"
 SPHASH_API void hash_file(int hash_mode, int hash_algorithm, 
                           const wchar_t* file_name, 
                           char* result_inout, int* result_len);
