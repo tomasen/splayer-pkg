@@ -170,6 +170,18 @@
 	<References>
 	</References>
 	<Files>
+		<Filter
+			Name="MD5"
+			>
+			<File
+				RelativePath=".\MD5Checksum.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\MD5Checksum.h"
+				>
+			</File>
+		</Filter>
 		<File
 			RelativePath=".\pch.cpp"
 			>

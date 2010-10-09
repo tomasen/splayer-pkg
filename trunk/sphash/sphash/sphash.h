@@ -15,6 +15,14 @@
 
 #endif // defined(WIN32)
 
+#define   HASH_ALGO_MD5         0
+
+
+#define   HASH_MOD_FILE_STR     0
+#define   HASH_MOD_FILE_BIN     1
+#define   HASH_MOD_VIDEO_STR    2
+#define   HASH_MOD_VIDEO_BIN    3
+
 extern "C"
 {
 
