@@ -235,47 +235,23 @@ void algo_md5(int hash_mode, const wchar_t* file_name,
       }
     }
     break;
-  case HASH_MOD_VIDEO_BIN:
   case HASH_MOD_VIDEO_STR:
     {
       vector<vector<unsigned char> > strbuf;
       if (modhash_video(strbuf, file_name, result_inout, result_len) != 0)
-        return;
+      return;
 
-      if (hash_mode == HASH_MOD_VIDEO_BIN)
+      string text;
+      for (vector<vector<unsigned char> >::iterator it = strbuf.begin(); it != strbuf.end(); it++)
       {
-        string text;
-        for (vector<vector<unsigned char> >::iterator it = strbuf.begin(); it != strbuf.end(); it++)
-        {
-          stringstream textstream;
-          if (it != strbuf.begin())
-            text += ';';
-          unsigned char str[16];
-          memcpy(str, &(*it)[0], (*it).size());
-          for (int i = 0; i < 16; i++)
-          {
-            textstream << setw(2) << setfill('0') << hex << (unsigned int)str[i];
-          }
-          text += textstream.str().c_str();
-        }
-        text.push_back(0);
-        *result_len = text.size();
-        memcpy(result_inout, text.c_str(), *result_len);
-      }
-      else
-      {
-        string text;
-        for (vector<vector<unsigned char> >::iterator it = strbuf.begin(); it != strbuf.end(); it++)
-        {
-          if (it != strbuf.begin())
-            text += ';';
+        if (it != strbuf.begin())
+          text += ';';
 
-          text += bintotext(&(*it)[0]);
-        }
-        text.push_back(0);
-        *result_len = text.size();
-        memcpy(result_inout, text.c_str(), *result_len);
+        text += bintotext(&(*it)[0]);
       }
+      text.push_back(0);
+      *result_len = text.size();
+      memcpy(result_inout, text.c_str(), *result_len);
     }
     break;
   default:
