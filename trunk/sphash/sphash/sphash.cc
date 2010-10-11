@@ -70,23 +70,17 @@ int file_exist(wstring &path, wstring &newpath)
   return (!_wstat(path.c_str(), &sbuf) && sbuf.st_mode & _S_IFREG);
 }
 
-string bintotext(unsigned char *buf)
+string bintotext_hex(unsigned char *buf, size_t buf_size)
 {
-  string str;
-
-  for (int i = 0; i < 16; i++)
-  {
-    stringstream textstream;
+  stringstream textstream;
+  for (size_t i = 0; i < buf_size; i++)
     textstream << setw(2) << setfill('0') << hex << (unsigned int)buf[i];
-    str += textstream.str().c_str();
-  }
 
-  return str;
+  return textstream.str();
 }
 
 int modhash_file(unsigned char md5buf[16], const wchar_t* file_name, char* result_inout, int* result_len)
 {
-
   vector<wstring> filelist = get_filelist(file_name);
   for (vector<wstring>::iterator it = filelist.begin(); it != filelist.end(); it++)
   {
@@ -228,7 +222,7 @@ void algo_md5(int hash_mode, const wchar_t* file_name,
       }
       else
       {
-        string text = bintotext(md5buf);
+        string text = bintotext_hex(md5buf, sizeof(md5buf));
         text.push_back(0);
         *result_len = text.size();
         memcpy(result_inout, text.c_str(), *result_len);
@@ -239,7 +233,7 @@ void algo_md5(int hash_mode, const wchar_t* file_name,
     {
       vector<vector<unsigned char> > strbuf;
       if (modhash_video(strbuf, file_name, result_inout, result_len) != 0)
-      return;
+        return;
 
       string text;
       for (vector<vector<unsigned char> >::iterator it = strbuf.begin(); it != strbuf.end(); it++)
@@ -247,7 +241,7 @@ void algo_md5(int hash_mode, const wchar_t* file_name,
         if (it != strbuf.begin())
           text += ';';
 
-        text += bintotext(&(*it)[0]);
+        text += bintotext_hex(&(*it)[0], (*it).size());
       }
       text.push_back(0);
       *result_len = text.size();
