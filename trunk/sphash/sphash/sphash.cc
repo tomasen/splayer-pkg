@@ -78,6 +78,17 @@ string bintotext_hex(unsigned char *buf, size_t buf_size)
 
   return textstream.str();
 }
+int modhash_binary(unsigned char md5buf[16], char* result_inout, int* result_len)
+{
+  if (result_len <= 0)
+    return 1;
+
+  MD5Checksum md5;
+  md5.GetMD5((unsigned char*)result_inout, *result_len);
+  memcpy(md5buf, md5.lpszMD5, 16);
+
+  return 0;
+}
 
 int modhash_file(unsigned char md5buf[16], const wchar_t* file_name, char* result_inout, int* result_len)
 {
@@ -208,14 +219,28 @@ void algo_md5(int hash_mode, const wchar_t* file_name,
 {
   switch (hash_mode)
   {
+  case HASH_MOD_BINARY_STR:
+  case HASH_MOD_BINARY_BIN:
   case HASH_MOD_FILE_BIN:
   case HASH_MOD_FILE_STR:
     {
+      // this is ugly, fix it later
       unsigned char md5buf[16];
-      if (modhash_file(md5buf, file_name, result_inout, result_len) != 0)
-        return;
+      switch (hash_mode)
+      {
+        case HASH_MOD_BINARY_STR:
+        case HASH_MOD_BINARY_BIN:
+          if (modhash_binary(md5buf, result_inout, result_len) != 0)
+            return;
+          break;
+        case HASH_MOD_FILE_BIN:
+        case HASH_MOD_FILE_STR:
+          if (modhash_file(md5buf, file_name, result_inout, result_len) != 0)
+            return;
+          break;
+      }
 
-      if (hash_mode == HASH_MOD_FILE_BIN)
+      if (hash_mode == HASH_MOD_FILE_BIN || hash_mode == HASH_MOD_BINARY_BIN)
       {
         *result_len = 16;
         memcpy(result_inout, md5buf, *result_len);
@@ -263,6 +288,20 @@ void hash_file(int hash_mode, int hash_algorithm,
   {
   case HASH_ALGO_MD5:
     algo_md5(hash_mode, file_name, result_inout, result_len);
+    break;
+  default:
+    break;
+  }
+}
+
+void hash_data(int hash_mode, int hash_algorithm, 
+               char* result_inout, int* result_len)
+{
+
+  switch (hash_algorithm)
+  {
+  case HASH_ALGO_MD5:
+    algo_md5(hash_mode, NULL, result_inout, result_len);
     break;
   default:
     break;

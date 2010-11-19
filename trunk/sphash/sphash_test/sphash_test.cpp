@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "../sphash/sphash.h"
 #include <string>
+#include <windows.h>
 
 #define TEST_ENTER(testcase) \
 { \
@@ -41,6 +42,16 @@ int main(int argc, char* argv[])
   hash_file(HASH_MOD_FILE_STR, HASH_ALGO_MD5, file3, out3, &len3);
   printf("[file hash]: %s\n", out3);
   TEST_RESULT("sub file", strcmp(out3, "aae217e9af85b58fe1f96c923511359b")==0, strcmp(out3, "aae217e9af85b58fe1f96c923511359b"));
+
+  TEST_ENTER("binary to md5 hex str");
+  char out4[300] = "Piranha.2010-r5.xvid-vision.srt\0";
+  int len4 = strlen(out4);
+  printf("[file hash]: %d\n", len4);
+  hash_file(HASH_MOD_BINARY_STR, HASH_ALGO_MD5, NULL, out4, &len4);
+  printf("[file hash]: %s %d\n", out4, len4);
+  TEST_RESULT("binary to md5 hex str", strcmp(out4, "029392dacffaa2f60281f6e5cc15690e")==0, strcmp(out4, "029392dacffaa2f60281f6e5cc15690e"));
+
+  system("pause");
 
 	return 0;
 }
