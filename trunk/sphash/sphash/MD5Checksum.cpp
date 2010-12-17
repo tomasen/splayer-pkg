@@ -210,7 +210,8 @@ std::wstring MD5Checksum::GetMD5(std::wstring strFilePath)
 {
   //open the file as a binary file in readonly mode, denying write access 
   FILE* File;
-  _wfopen_s(&File, &strFilePath[0], L"rb");
+  if (_wfopen_s(&File, strFilePath.c_str(), L"rb"))
+    return L"";
 
   //the file has been successfully opened, so now get and return its checksum
   return GetMD5(File);
