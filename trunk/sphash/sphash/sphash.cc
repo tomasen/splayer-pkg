@@ -3,7 +3,9 @@
 
 #include "pch.h"
 #include "sphash.h"
+#ifdef WIN32
 #include "unrar.hpp"
+#endif
 #include "MD5Checksum.h"
 
 using namespace std;
@@ -42,6 +44,7 @@ vector<wstring> get_filelist(const wchar_t* file)
   return filelist;
 }
 
+#ifdef WIN32
 // rar file format
 // rar://C:\\Project\\SAMPLE.rar?SAMPLE.mkv
 int rarfile_handle(wstring &path, wstring &rarpath)
@@ -61,13 +64,20 @@ int rarfile_handle(wstring &path, wstring &rarpath)
 
   return 1;
 }
+#endif
 
 int file_exist(wstring &path, wstring &newpath)
 {
+#ifdef WIN32
   rarfile_handle(path, newpath);
-
   struct _stat sbuf;
   return (!_wstat(path.c_str(), &sbuf) && sbuf.st_mode & _S_IFREG);
+#endif
+
+#ifdef _MAC_
+  struct stat sbuf;
+  return (!stat(Utf8(path.c_str()), &sbuf) && sbuf.st_mode & S_IFREG);
+#endif  
 }
 
 string bintotext_hex(unsigned char *buf, size_t buf_size)
@@ -122,7 +132,7 @@ int modhash_video(vector<vector<unsigned char> > &strbuf, const wchar_t* file_na
   wstring rarpath;
 
   __int64 offset[4];
-
+#ifdef WIN32
   if (rarfile_handle(path, rarpath))
   {
     struct RAROpenArchiveDataEx rarst;
@@ -179,15 +189,29 @@ int modhash_video(vector<vector<unsigned char> > &strbuf, const wchar_t* file_na
       RARCloseArchive(hrar);
     }
   } // if (rarfile_handle(path))
-
+#endif
+  
   if (strbuf.empty())
   {
+    
     int stream;
-    errno_t err;
-    err =  _wsopen_s(&stream, path.c_str(), _O_BINARY|_O_RDONLY, _SH_DENYNO, _S_IREAD);
-    if (!err)
+#ifdef WIN32   
+    if (!_wsopen_s(&stream, path.c_str(), _O_BINARY|_O_RDONLY, _SH_DENYNO, _S_IREAD))
+#endif
+#ifdef _MAC_
+    stream = open(Utf8(path.c_str()), O_RDONLY);
+    if (stream)
+#endif      
     {
-      __int64 ftotallen  = _filelengthi64(stream);
+      __int64 ftotallen  = 0;
+#ifdef WIN32      
+      ftotallen  = _filelengthi64(stream);
+#endif
+#ifdef _MAC_
+      struct stat sbuf;
+      if (!fstat(stream, &sbuf))
+        ftotallen = sbuf.st_size;
+#endif      
       if (ftotallen >= 8192)
       {
         offset[3] = ftotallen - 8192;
@@ -198,16 +222,31 @@ int modhash_video(vector<vector<unsigned char> > &strbuf, const wchar_t* file_na
         unsigned char Buf[4096];
         for (int i = 0; i < 4; i++)
         {
+#ifdef WIN32
           _lseeki64(stream, offset[i], 0);
+#endif
+#ifdef _MAC_
+          lseek(stream, offset[i], 0);
+#endif
+#ifdef WIN32
           //hash 4k block
           int readlen = _read( stream, Buf, 4096);
+#endif
+#ifdef _MAC_
+          int readlen = read( stream, Buf, 4096);
+#endif
           md5.GetMD5(Buf, readlen);
           vector<unsigned char> str(16);
           memcpy(&str[0], md5.lpszMD5, 16);
           strbuf.push_back(str);
         }
       }
+#ifdef WIN32
       _close(stream);
+#endif
+#ifdef _MAC_
+      close(stream);
+#endif
     }
   }
 

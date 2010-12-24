@@ -22,7 +22,64 @@
 #define WIN32_LEAN_AND_MEAN     // Exclude rarely-used stuff from Windows headers
 
 #include <windows.h>
-
+#include <io.h>
 #endif // defined(WIN32)
+
+#ifdef _MAC_
+
+#define _DARWIN_FEATURE_64_BIT_INODE
+
+#include <vector>
+#include <string>
+#include <algorithm>
+#include <fcntl.h>
+#include <sys/stat.h>
+#include <sstream>
+#include <iomanip>
+
+#define UCHAR unsigned char
+#define __int64 __int64_t
+
+
+#include <CoreFoundation/CoreFoundation.h>
+
+class Utf8
+{
+public:
+  Utf8(const wchar_t* wsz): m_utf8(NULL)
+  {
+    // OS X uses 32-bit wchar
+    const int bytes = wcslen(wsz) * sizeof(wchar_t);
+    // kCFStringEncodingUTF32BE for PowerPC
+    CFStringEncoding encoding = kCFStringEncodingUTF32LE;
+    
+    CFStringRef str = CFStringCreateWithBytesNoCopy(NULL, 
+                                                    (const UInt8*)wsz, bytes, 
+                                                    encoding, false, 
+                                                    kCFAllocatorNull
+                                                    );
+    
+    const int bytesUtf8 = CFStringGetMaximumSizeOfFileSystemRepresentation(str);
+    m_utf8 = new char[bytesUtf8];
+    CFStringGetFileSystemRepresentation(str, m_utf8, bytesUtf8);
+    CFRelease(str);
+  }   
+  
+  ~Utf8() 
+  { 
+    if( m_utf8 )
+    {
+      delete[] m_utf8;
+    }
+  }
+  
+public:
+  operator const char*() const { return m_utf8; }
+  
+private:
+  char* m_utf8;
+};
+
+#endif // _MAC_
 
 #endif // PCH_H

@@ -1,7 +1,7 @@
 #include "pch.h"
 #include "../sphash/sphash.h"
 #include <string>
-#include <windows.h>
+#define MAX_PATH 1024
 
 #define TEST_ENTER(testcase) \
 { \
@@ -11,7 +11,7 @@
 
 #define TEST_RESULT(testcase, condition, variable) \
 { \
-  if (##condition)\
+  if (condition)\
   printf ("\ntest [%s] is [PASSED]\n", testcase);\
     else\
     printf ("\ntest [%s] [FAILED], condition requires (" #condition ") and its value is: %d\n", testcase, variable);\
@@ -51,8 +51,8 @@ int main(int argc, char* argv[])
   printf("[file hash]: %s %d\n", out4, len4);
   TEST_RESULT("binary to md5 hex str", strcmp(out4, "029392dacffaa2f60281f6e5cc15690e")==0, strcmp(out4, "029392dacffaa2f60281f6e5cc15690e"));
 
-  system("pause");
-
+  int pause;
+  scanf("%d", &pause);
 	return 0;
 }
 

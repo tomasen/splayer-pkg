@@ -210,9 +210,16 @@ std::wstring MD5Checksum::GetMD5(std::wstring strFilePath)
 {
   //open the file as a binary file in readonly mode, denying write access 
   FILE* File;
+#ifdef WIN32  
   if (_wfopen_s(&File, strFilePath.c_str(), L"rb"))
     return L"";
-
+#endif
+#ifdef _MAC_
+  File = fopen(Utf8(strFilePath.c_str()), "rb");
+  if (!File)
+    return L"";
+#endif
+  
   //the file has been successfully opened, so now get and return its checksum
   return GetMD5(File);
 }
@@ -237,8 +244,15 @@ std::wstring MD5Checksum::GetMD5(FILE* File)
 
   //checksum the file in blocks of 1024 bytes
   //(nLength = File.Read( Buffer, nBufferSize )
+#ifdef WIN32  
   while ((nLength = fread_s(Buffer, nBufferSize, sizeof(unsigned char), nBufferSize, File)) > 0)
     Update(Buffer, nLength);
+#endif
+#ifdef _MAC_
+  while ((nLength = fread(Buffer, sizeof(unsigned char), nBufferSize, File)) > 0)
+    Update(Buffer, nLength);
+#endif
+  
   fclose(File);
   //finalise the checksum and return it
   return Final();
@@ -594,12 +608,20 @@ std::wstring MD5Checksum::Final()
   for (int i=0; i < nMD5Size; i++) 
   {
     wchar_t Str[128];
+#ifdef WIN32    
     if (this->lpszMD5[i] == 0)
       wcscpy_s(Str, sizeof(Str), L"00");
     else if (this->lpszMD5[i] <= 15)
       swprintf_s(Str, 128, L"0%x", this->lpszMD5[i]);
     else
       swprintf_s(Str, 128, L"%x", this->lpszMD5[i]);
+#endif
+#ifdef _MAC_
+    if (this->lpszMD5[i] <= 15)
+      swprintf(Str, 128, L"0%x", this->lpszMD5[i]);
+    else
+      swprintf(Str, 128, L"%x", this->lpszMD5[i]);
+#endif    
     strMD5 += Str;
   }
   Clean();
