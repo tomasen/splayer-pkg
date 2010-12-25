@@ -25,10 +25,6 @@
 #include <io.h>
 #endif // defined(WIN32)
 
-#ifdef _MAC_
-
-#define _DARWIN_FEATURE_64_BIT_INODE
-
 #include <vector>
 #include <string>
 #include <algorithm>
@@ -36,6 +32,10 @@
 #include <sys/stat.h>
 #include <sstream>
 #include <iomanip>
+
+#ifdef _MAC_
+
+#define _DARWIN_FEATURE_64_BIT_INODE
 
 #define UCHAR unsigned char
 #define __int64 __int64_t
