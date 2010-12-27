@@ -147,7 +147,14 @@
 			isa = PBXProject;
 			buildConfigurationList = 9D9EE04312C495BA0084AED8 /* Build configuration list for PBXProject "sphash" */;
 			compatibilityVersion = "Xcode 2.4";
+			developmentRegion = English;
 			hasScannedForEncodings = 0;
+			knownRegions = (
+				English,
+				Japanese,
+				French,
+				German,
+			);
 			mainGroup = 9D9EE03E12C495BA0084AED8;
 			productRefGroup = 9D9EE06612C496440084AED8 /* Products */;
 			projectDirPath = "";
@@ -193,6 +200,8 @@
 		9D9EE04112C495BA0084AED8 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_64_BIT_PRE_XCODE_3_1)";
+				ARCHS_STANDARD_32_64_BIT_PRE_XCODE_3_1 = "x86_64 i386 ppc";
 				COPY_PHASE_STRIP = NO;
 				GCC_PREPROCESSOR_DEFINITIONS = _MAC_;
 			};
@@ -201,6 +210,8 @@
 		9D9EE04212C495BA0084AED8 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_64_BIT_PRE_XCODE_3_1)";
+				ARCHS_STANDARD_32_64_BIT_PRE_XCODE_3_1 = "x86_64 i386 ppc";
 				COPY_PHASE_STRIP = YES;
 				GCC_PREPROCESSOR_DEFINITIONS = _MAC_;
 			};
