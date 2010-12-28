@@ -200,7 +200,7 @@ int modhash_video(vector<vector<unsigned char> > &strbuf, const wchar_t* file_na
 #endif
 #ifdef _MAC_
     stream = open(Utf8(path.c_str()), O_RDONLY);
-    if (stream)
+    if (stream >= 0)
 #endif      
     {
       __int64 ftotallen  = 0;

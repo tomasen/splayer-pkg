@@ -22,7 +22,7 @@
 int main(int argc, char* argv[])
 {
   TEST_ENTER("video file and RAR file");
-  wchar_t file[MAX_PATH] = L"SAMPLE.mkv\0\0";
+  wchar_t file[MAX_PATH] = L"/Volumes/Data/bt/Desperate.Housewives.S06E14.720p.HDTV.X264-DIMENSION.mkv\0\0";
   char out[300], out2[300];
   int len, len2;
   hash_file(HASH_MOD_VIDEO_STR, HASH_ALGO_MD5, file, out, &len);

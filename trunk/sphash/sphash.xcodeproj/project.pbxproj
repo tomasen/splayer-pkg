@@ -7,9 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		9D9EE08612C4975D0084AED8 /* MD5Checksum.h in Headers */ = {isa = PBXBuildFile; fileRef = 9D9EE05A12C496120084AED8 /* MD5Checksum.h */; };
-		9D9EE08712C497600084AED8 /* pch.h in Headers */ = {isa = PBXBuildFile; fileRef = 9D9EE05C12C496120084AED8 /* pch.h */; };
-		9D9EE08812C497630084AED8 /* sphash.h in Headers */ = {isa = PBXBuildFile; fileRef = 9D9EE05F12C496120084AED8 /* sphash.h */; };
+		9D9EE08612C4975D0084AED8 /* MD5Checksum.h in Headers */ = {isa = PBXBuildFile; fileRef = 9D9EE05A12C496120084AED8 /* MD5Checksum.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		9D9EE08712C497600084AED8 /* pch.h in Headers */ = {isa = PBXBuildFile; fileRef = 9D9EE05C12C496120084AED8 /* pch.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		9D9EE08812C497630084AED8 /* sphash.h in Headers */ = {isa = PBXBuildFile; fileRef = 9D9EE05F12C496120084AED8 /* sphash.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		9D9EE08912C497670084AED8 /* sphash.cc in Sources */ = {isa = PBXBuildFile; fileRef = 9D9EE05D12C496120084AED8 /* sphash.cc */; };
 		9D9EE08A12C497700084AED8 /* pch.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9D9EE05B12C496120084AED8 /* pch.cpp */; };
 		9D9EE08B12C497720084AED8 /* MD5Checksum.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9D9EE05912C496120084AED8 /* MD5Checksum.cpp */; };
@@ -147,7 +147,6 @@
 			isa = PBXProject;
 			buildConfigurationList = 9D9EE04312C495BA0084AED8 /* Build configuration list for PBXProject "sphash" */;
 			compatibilityVersion = "Xcode 2.4";
-			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				English,
@@ -200,20 +199,24 @@
 		9D9EE04112C495BA0084AED8 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_32_64_BIT_PRE_XCODE_3_1)";
-				ARCHS_STANDARD_32_64_BIT_PRE_XCODE_3_1 = "x86_64 i386 ppc";
+				ARCHS = "$(ARCHS_STANDARD_64_BIT_PRE_XCODE_3_1)";
+				ARCHS_STANDARD_64_BIT_PRE_XCODE_3_1 = x86_64;
 				COPY_PHASE_STRIP = NO;
 				GCC_PREPROCESSOR_DEFINITIONS = _MAC_;
+				SDKROOT = "$(DEVELOPER_SDK_DIR)/MacOSX10.6.sdk";
+				STANDARD_C_PLUS_PLUS_LIBRARY_TYPE = static;
 			};
 			name = Debug;
 		};
 		9D9EE04212C495BA0084AED8 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_32_64_BIT_PRE_XCODE_3_1)";
-				ARCHS_STANDARD_32_64_BIT_PRE_XCODE_3_1 = "x86_64 i386 ppc";
+				ARCHS = "$(ARCHS_STANDARD_64_BIT_PRE_XCODE_3_1)";
+				ARCHS_STANDARD_64_BIT_PRE_XCODE_3_1 = x86_64;
 				COPY_PHASE_STRIP = YES;
 				GCC_PREPROCESSOR_DEFINITIONS = _MAC_;
+				SDKROOT = "$(DEVELOPER_SDK_DIR)/MacOSX10.6.sdk";
+				STANDARD_C_PLUS_PLUS_LIBRARY_TYPE = static;
 			};
 			name = Release;
 		};
@@ -237,7 +240,6 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				COPY_PHASE_STRIP = YES;
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				GCC_ENABLE_FIX_AND_CONTINUE = NO;
 				GCC_MODEL_TUNING = G5;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -246,7 +248,6 @@
 				INSTALL_PATH = /usr/local/lib;
 				PREBINDING = NO;
 				PRODUCT_NAME = sphash;
-				STANDARD_C_PLUS_PLUS_LIBRARY_TYPE = static;
 				ZERO_LINK = NO;
 			};
 			name = Release;
