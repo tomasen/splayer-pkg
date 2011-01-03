@@ -139,7 +139,7 @@ Laboratory for Computer Science and RSA Data Security, Inc., April 1992.
    3.1 Step 1. Append Padding Bits
    The message is "padded" (extended) so that its length (in bits) is
    congruent to 448, modulo 512. That is, the message is extended so
-   that it is just 64 bits shy of being a multiple of 512 bits long.
+   that it is just 64 bits shy of being a multiple of 512 bits int.
    Padding is always performed, even if the length of the message is
    already congruent to 448, modulo 512.
    Padding is performed as follows: a single "1" bit is appended to the
@@ -310,32 +310,32 @@ protected:
 
   //RSA MD5 implementation
   void Transform(unsigned char Block[64]);
-  void Update(unsigned char* Input, unsigned long nInputLen);
+  void Update(unsigned char* Input, unsigned int nInputLen);
   std::wstring Final();
-  inline unsigned long RotateLeft(unsigned long x, int n);
-  inline void FF(unsigned long& A, unsigned long B, unsigned long C,
-                 unsigned long D, unsigned long X,
-                 unsigned long S, unsigned long T);
-  inline void GG(unsigned long& A, unsigned long B, unsigned long C,
-                 unsigned long D, unsigned long X,
-                 unsigned long S, unsigned long T);
-  inline void HH(unsigned long& A, unsigned long B, unsigned long C,
-                 unsigned long D, unsigned long X,
-                 unsigned long S, unsigned long T);
-  inline void II(unsigned long& A, unsigned long B, unsigned long C,
-                 unsigned long D, unsigned long X,
-                 unsigned long S, unsigned long T);
+  inline unsigned int RotateLeft(unsigned int x, int n);
+  inline void FF(unsigned int& A, unsigned int B, unsigned int C,
+                 unsigned int D, unsigned int X,
+                 unsigned int S, unsigned int T);
+  inline void GG(unsigned int& A, unsigned int B, unsigned int C,
+                 unsigned int D, unsigned int X,
+                 unsigned int S, unsigned int T);
+  inline void HH(unsigned int& A, unsigned int B, unsigned int C,
+                 unsigned int D, unsigned int X,
+                 unsigned int S, unsigned int T);
+  inline void II(unsigned int& A, unsigned int B, unsigned int C,
+                 unsigned int D, unsigned int X,
+                 unsigned int S, unsigned int T);
 
   //utility functions
-  inline void DWordToByte(unsigned char* Output, unsigned long* Input,
+  inline void DWordToByte(unsigned char* Output, unsigned int* Input,
                           unsigned int nLength);
-  inline void ByteToDWord(unsigned long* Output, unsigned char* Input,
+  inline void ByteToDWord(unsigned int* Output, unsigned char* Input,
                           unsigned int nLength);
 
 private:
   unsigned char m_lpszBuffer[64];             //input buffer
-  unsigned long m_nCount[2];                  //number of bits, modulo 2^64 (lsb first)
-  unsigned long m_lMD5[4];                    //MD5 checksum
+  unsigned int m_nCount[2];                  //number of bits, modulo 2^64 (lsb first)
+  unsigned int m_lMD5[4];                    //MD5 checksum
 };
 
 #endif // #ifndef MD5CHECKSUM_H

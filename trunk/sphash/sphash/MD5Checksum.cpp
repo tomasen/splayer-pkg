@@ -276,7 +276,7 @@ NOTES:			Provides an interface to the MD5Checksum class. Any data that can
 std::wstring MD5Checksum::GetMD5(unsigned char* pBuf, unsigned int nLength)
 {
   //calculate and return the checksum
-  Update(pBuf, nLength);
+	Update(pBuf, nLength);
   return Final();
 }
 
@@ -284,14 +284,14 @@ std::wstring MD5Checksum::GetMD5(unsigned char* pBuf, unsigned int nLength)
 /*****************************************************************************************
 FUNCTION:		MD5Checksum::RotateLeft
 DETAILS:		private
-DESCRIPTION:	Rotates the bits in a 32 bit unsigned long left by a specified amount
-RETURNS:		The rotated unsigned long 
-ARGUMENTS:		unsigned long x : the value to be rotated
+DESCRIPTION:	Rotates the bits in a 32 bit unsigned int left by a specified amount
+RETURNS:		The rotated unsigned int 
+ARGUMENTS:		unsigned int x : the value to be rotated
 				int n   : the number of bits to rotate by
 *****************************************************************************************/
-unsigned long MD5Checksum::RotateLeft(unsigned long x, int n)
+unsigned int MD5Checksum::RotateLeft(unsigned int x, int n)
 {
-  //check that unsigned long is 4 bytes long - true in Visual C++ 6 and 32 bit Windows
+  //check that unsigned int is 4 bytes int - true in Visual C++ 6 and 32 bit Windows
 
   //rotate and return x
   return (x << n) | (x >> (32 - n));
@@ -303,17 +303,17 @@ FUNCTION:		MD5Checksum::FF
 DETAILS:		protected
 DESCRIPTION:	Implementation of basic MD5 transformation algorithm
 RETURNS:		none
-ARGUMENTS:		unsigned long &A, B, C, D : Current (partial) checksum
-				unsigned long X           : Input data
-				unsigned long S			  : MD5_SXX Transformation constant
-				unsigned long T			  :	MD5_TXX Transformation constant
+ARGUMENTS:		unsigned int &A, B, C, D : Current (partial) checksum
+				unsigned int X           : Input data
+				unsigned int S			  : MD5_SXX Transformation constant
+				unsigned int T			  :	MD5_TXX Transformation constant
 NOTES:			None
 *****************************************************************************************/
-void MD5Checksum::FF(unsigned long& A, unsigned long B, unsigned long C,
-                      unsigned long D, unsigned long X,
-                      unsigned long S, unsigned long T)
+void MD5Checksum::FF(unsigned int& A, unsigned int B, unsigned int C,
+                      unsigned int D, unsigned int X,
+                      unsigned int S, unsigned int T)
 {
-  unsigned long F = (B & C) | (~B & D);
+  unsigned int F = (B & C) | (~B & D);
   A += F + X + T;
   A = RotateLeft(A, S);
   A += B;
@@ -325,17 +325,17 @@ FUNCTION:		MD5Checksum::GG
 DETAILS:		protected
 DESCRIPTION:	Implementation of basic MD5 transformation algorithm
 RETURNS:		none
-ARGUMENTS:		unsigned long &A, B, C, D : Current (partial) checksum
-				unsigned long X           : Input data
-				unsigned long S			  : MD5_SXX Transformation constant
-				unsigned long T			  :	MD5_TXX Transformation constant
+ARGUMENTS:		unsigned int &A, B, C, D : Current (partial) checksum
+				unsigned int X           : Input data
+				unsigned int S			  : MD5_SXX Transformation constant
+				unsigned int T			  :	MD5_TXX Transformation constant
 NOTES:			None
 *****************************************************************************************/
-void MD5Checksum::GG(unsigned long& A, unsigned long B, unsigned long C,
-                      unsigned long D, unsigned long X,
-                      unsigned long S, unsigned long T)
+void MD5Checksum::GG(unsigned int& A, unsigned int B, unsigned int C,
+                      unsigned int D, unsigned int X,
+                      unsigned int S, unsigned int T)
 {
-  unsigned long G = (B & D) | (C & ~D);
+  unsigned int G = (B & D) | (C & ~D);
   A += G + X + T;
   A = RotateLeft(A, S);
   A += B;
@@ -347,17 +347,17 @@ FUNCTION:		MD5Checksum::HH
 DETAILS:		protected
 DESCRIPTION:	Implementation of basic MD5 transformation algorithm
 RETURNS:		none
-ARGUMENTS:		unsigned long &A, B, C, D : Current (partial) checksum
-				unsigned long X           : Input data
-				unsigned long S			  : MD5_SXX Transformation constant
-				unsigned long T			  :	MD5_TXX Transformation constant
+ARGUMENTS:		unsigned int &A, B, C, D : Current (partial) checksum
+				unsigned int X           : Input data
+				unsigned int S			  : MD5_SXX Transformation constant
+				unsigned int T			  :	MD5_TXX Transformation constant
 NOTES:			None
 *****************************************************************************************/
-void MD5Checksum::HH(unsigned long& A, unsigned long B, unsigned long C,
-                      unsigned long D, unsigned long X,
-                      unsigned long S, unsigned long T)
+void MD5Checksum::HH(unsigned int& A, unsigned int B, unsigned int C,
+                      unsigned int D, unsigned int X,
+                      unsigned int S, unsigned int T)
 {
-  unsigned long H = (B ^ C ^ D);
+  unsigned int H = (B ^ C ^ D);
   A += H + X + T;
   A = RotateLeft(A, S);
   A += B;
@@ -369,17 +369,17 @@ FUNCTION:		MD5Checksum::II
 DETAILS:		protected
 DESCRIPTION:	Implementation of basic MD5 transformation algorithm
 RETURNS:		none
-ARGUMENTS:		unsigned long &A, B, C, D : Current (partial) checksum
-				unsigned long X           : Input data
-				unsigned long S			  : MD5_SXX Transformation constant
-				unsigned long T			  :	MD5_TXX Transformation constant
+ARGUMENTS:		unsigned int &A, B, C, D : Current (partial) checksum
+				unsigned int X           : Input data
+				unsigned int S			  : MD5_SXX Transformation constant
+				unsigned int T			  :	MD5_TXX Transformation constant
 NOTES:			None
 *****************************************************************************************/
-void MD5Checksum::II(unsigned long& A, unsigned long B, unsigned long C,
-                      unsigned long D, unsigned long X,
-                      unsigned long S, unsigned long T)
+void MD5Checksum::II(unsigned int& A, unsigned int B, unsigned int C,
+                      unsigned int D, unsigned int X,
+                      unsigned int S, unsigned int T)
 {
-  unsigned long I = (C ^ (B | ~D));
+  unsigned int I = (C ^ (B | ~D));
   A += I + X + T;
   A = RotateLeft(A, S);
   A += B;
@@ -391,16 +391,16 @@ FUNCTION:		MD5Checksum::ByteToDWord
 DETAILS:		private
 DESCRIPTION:	Transfers the data in an 8 bit array to a 32 bit array
 RETURNS:		void
-ARGUMENTS:		unsigned long* Output : the 32 bit (unsigned long) destination array 
+ARGUMENTS:		unsigned int* Output : the 32 bit (unsigned int) destination array 
 				unsigned char* Input	  : the 8 bit (unsigned char) source array
 				unsigned int nLength  : the number of 8 bit data items in the source array
-NOTES:			Four BYTES from the input array are transferred to each unsigned long entry
+NOTES:			Four BYTES from the input array are transferred to each unsigned int entry
 				of the output array. The first unsigned char is transferred to the bits (0-7) 
-				of the output unsigned long, the second unsigned char to bits 8-15 etc. 
-				The algorithm assumes that the input array is a multiple of 4 bytes long
+				of the output unsigned int, the second unsigned char to bits 8-15 etc. 
+				The algorithm assumes that the input array is a multiple of 4 bytes int
 				so that there is a perfect fit into the array of 32 bit words.
 *****************************************************************************************/
-void MD5Checksum::ByteToDWord(unsigned long* Output,
+void MD5Checksum::ByteToDWord(unsigned int* Output,
                                unsigned char* Input, unsigned int nLength)
 {
   //entry invariants
@@ -412,10 +412,10 @@ void MD5Checksum::ByteToDWord(unsigned long* Output,
   //transfer the data by shifting and copying
   for (; j < nLength; i++, j += 4)
   {
-    Output[i] = (unsigned long)Input[j] | 
-      (unsigned long)Input[j+1] << 8 | 
-      (unsigned long)Input[j+2] << 16 | 
-      (unsigned long)Input[j+3] << 24;
+    Output[i] = (unsigned int)Input[j] | 
+      (unsigned int)Input[j+1] << 8 | 
+      (unsigned int)Input[j+2] << 16 | 
+      (unsigned int)Input[j+3] << 24;
   }
 }
 
@@ -432,13 +432,13 @@ NOTES:			An MD5 checksum is calculated by four rounds of 'Transformation'.
 void MD5Checksum::Transform(unsigned char Block[64])
 {
   //initialise local data with current checksum
-  unsigned long a = m_lMD5[0];
-  unsigned long b = m_lMD5[1];
-  unsigned long c = m_lMD5[2];
-  unsigned long d = m_lMD5[3];
+  unsigned int a = m_lMD5[0];
+  unsigned int b = m_lMD5[1];
+  unsigned int c = m_lMD5[2];
+  unsigned int d = m_lMD5[3];
 
   //copy BYTES from input 'Block' to an array of ULONGS 'X'
-  unsigned long X[16];
+  unsigned int X[16];
   ByteToDWord(X, Block, 64);
 
   //Perform Round 1 of the transformation
@@ -549,18 +549,18 @@ DETAILS:		private
 DESCRIPTION:	Transfers the data in an 32 bit array to a 8 bit array
 RETURNS:		void
 ARGUMENTS:		unsigned char* Output  : the 8 bit destination array 
-				unsigned long* Input  : the 32 bit source array
+				unsigned int* Input  : the 32 bit source array
 				unsigned int nLength  : the number of 8 bit data items in the source array
-NOTES:			One unsigned long from the input array is transferred into four BYTES 
-				in the output array. The first (0-7) bits of the first unsigned long are 
+NOTES:			One unsigned int from the input array is transferred into four BYTES 
+				in the output array. The first (0-7) bits of the first unsigned int are 
 				transferred to the first output unsigned char, bits bits 8-15 are transferred from
 				the second unsigned char etc. 
 				
-				The algorithm assumes that the output array is a multiple of 4 bytes long
+				The algorithm assumes that the output array is a multiple of 4 bytes int
 				so that there is a perfect fit of 8 bit BYTES into the 32 bit DWORDs.
 *****************************************************************************************/
 void MD5Checksum::DWordToByte(unsigned char* Output,
-                               unsigned long* Input, unsigned int nLength)
+                               unsigned int* Input, unsigned int nLength)
 {
   //transfer the data by shifting and copying
   unsigned int i = 0;
@@ -638,9 +638,9 @@ ARGUMENTS:		unsigned char* Input    : input block
 				unsigned int nInputLen : length of input block
 NOTES:			Computes the partial MD5 checksum for 'nInputLen' bytes of data in 'Input'
 *****************************************************************************************/
-void MD5Checksum::Update(unsigned char* Input,	unsigned long nInputLen)
+void MD5Checksum::Update(unsigned char* Input,	unsigned int nInputLen)
 {
-  //Compute number of bytes mod 64
+	//Compute number of bytes mod 64
   unsigned int nIndex = (unsigned int)((m_nCount[0] >> 3) & 0x3F);
 
   //Update number of bits
