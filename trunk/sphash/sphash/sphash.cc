@@ -92,7 +92,7 @@ int modhash_binary(unsigned char md5buf[16], char* result_inout, int* result_len
 {
   if (result_len <= 0)
     return 1;
-
+	
   MD5Checksum md5;
   md5.GetMD5((unsigned char*)result_inout, *result_len);
   memcpy(md5buf, md5.lpszMD5, 16);
