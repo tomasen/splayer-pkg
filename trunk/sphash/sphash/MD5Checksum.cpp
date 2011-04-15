@@ -605,13 +605,12 @@ std::wstring MD5Checksum::Final()
 
   //Convert the hexadecimal checksum to a std::wstring
   std::wstring strMD5;
+  
   for (int i=0; i < nMD5Size; i++) 
   {
     wchar_t Str[128];
 #ifdef WIN32    
-    if (this->lpszMD5[i] == 0)
-      wcscpy_s(Str, sizeof(Str), L"00");
-    else if (this->lpszMD5[i] <= 15)
+    if (this->lpszMD5[i] <= 15)
       swprintf_s(Str, 128, L"0%x", this->lpszMD5[i]);
     else
       swprintf_s(Str, 128, L"%x", this->lpszMD5[i]);
