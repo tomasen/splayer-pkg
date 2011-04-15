@@ -21,7 +21,7 @@
 			OutputDirectory="$(SolutionDir)$(ConfigurationName)"
 			IntermediateDirectory="$(ConfigurationName)"
 			ConfigurationType="2"
-			InheritedPropertySheets="..\..\unrar\unrar.vsprops;..\..\..\..\unrar.vsprops"
+			InheritedPropertySheets="..\..\unrar\unrar.vsprops"
 			CharacterSet="1"
 			>
 			<Tool
@@ -94,7 +94,7 @@
 			OutputDirectory="$(SolutionDir)$(ConfigurationName)"
 			IntermediateDirectory="$(ConfigurationName)"
 			ConfigurationType="2"
-			InheritedPropertySheets="..\..\unrar\unrar.vsprops;..\..\..\..\unrar.vsprops"
+			InheritedPropertySheets="..\..\unrar\unrar.vsprops"
 			CharacterSet="1"
 			WholeProgramOptimization="1"
 			>
